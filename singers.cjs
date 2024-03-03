@@ -1,11 +1,9 @@
 const axios = require('axios');
 const qs = require('qs');
 
-const client_id = '0a7d2be3c806439885f71088fa4e4400';
-const client_secret = '31ba3654b3ae485d88e8490453d457a3';
-let token ='';
 
 let ID_list = [];
+let token = '';
 
 const Title_list = [
     "Yohani De Silva",
@@ -421,7 +419,7 @@ const authOptions = {
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
     headers: {
-        'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64')),
+        'Authorization': 'Basic ' + (Buffer.from(process.env.client_id + ':' + process.env.client_secret).toString('base64')),
         'Content-Type': 'application/x-www-form-urlencoded'
     },
     data: qs.stringify({
