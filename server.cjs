@@ -2,6 +2,7 @@ const express = require('express');
 const { Builder, By, until } = require('selenium-webdriver');
 const app = express();
 const Title_list = require('./singers.cjs');
+require('dotenv').config();
 
 
 
