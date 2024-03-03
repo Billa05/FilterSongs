@@ -3,7 +3,6 @@ const qs = require('qs');
 
 
 let ID_list = [];
-let token = '';
 
 const Title_list = [
     "Yohani De Silva",
@@ -380,7 +379,7 @@ const Title_list = [
 
 let total_playlists = 0;
 
-async function fetchPlaylists(offset = 0) {
+async function fetchPlaylists(token,offset = 0) {
     const response = await axios.get(`https://api.spotify.com/v1/browse/categories/0JQ5DAqbMKFHCxg5H5PtqW/playlists?offset=${offset}&limit=20`, {
         headers: { 'Authorization':  token },
     });
@@ -394,11 +393,14 @@ async function fetchPlaylists(offset = 0) {
     total_playlists = data['playlists']['total'];
 
     if (ID_list.length < total_playlists) {
-        return fetchPlaylists(offset + 20);
+        return fetchPlaylists(token,offset + 20);
+    }else{
+        return token;
+    
     }
 }
 
-async function fetchTitle(offset=0){
+async function fetchTitle(token,offset=0){
     for (const ID of ID_list) {
         const response = await axios.get(`https://api.spotify.com/v1/playlists/${ID}/tracks?offset=${offset}&limit=100`, {
             headers: { 'Authorization':  token },
@@ -430,12 +432,13 @@ const authOptions = {
 axios(authOptions)
     .then(response => {
         if (response.status === 200) {
-            token = response.data.token_type + ' ' + response.data.access_token;
+            const token = response.data.token_type + ' ' + response.data.access_token;
             console.log(token);
+            return token;
         }
     })
-    .then(fetchPlaylists)
-    .then(fetchTitle)
+    .then(token => fetchPlaylists(token))
+    .then(token => fetchTitle(token))
     .then(()=>{
         console.log(Title_list.length);
         // copy(Title_list);
