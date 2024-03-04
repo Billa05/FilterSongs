@@ -675,7 +675,8 @@ const Title_list = [
   "Arjun Kanungo",
 ];
 
-app.get("/runTest", async (req, res) => {
+app.get("/", async (req, res) => {
+  console.log("Hello");
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     await driver.get("https://accounts.spotify.com/en/login");
