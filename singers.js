@@ -1,7 +1,11 @@
-const axios = require('axios');
-const qs = require('qs');
+// const axios = require('axios');
+import axios from 'axios';
+// const qs = require('qs');
+import qs from 'qs';
+import clipboardy from 'clipboardy';
 
-
+const client_id = "0a7d2be3c806439885f71088fa4e4400";
+const client_secret = "31ba3654b3ae485d88e8490453d457a3";
 let ID_list = [];
 
 const Title_list = [
@@ -421,7 +425,7 @@ const authOptions = {
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
     headers: {
-        'Authorization': 'Basic ' + (Buffer.from(process.env.client_id + ':' + process.env.client_secret).toString('base64')),
+        'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64')),
         'Content-Type': 'application/x-www-form-urlencoded'
     },
     data: qs.stringify({
@@ -440,11 +444,12 @@ axios(authOptions)
     .then(token => fetchPlaylists(token))
     .then(token => fetchTitle(token))
     .then(()=>{
-        console.log(Title_list.length);
+        // console.log(Title_list.length);
+        clipboardy.writeSync(JSON.stringify(Title_list));
         // copy(Title_list);
     })
     .catch(error => {
         console.error(`Error getting access token: ${error}`);
     });
 
-module.exports = Title_list;
+// module.exports = Title_list;

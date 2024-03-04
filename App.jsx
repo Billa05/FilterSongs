@@ -2,7 +2,7 @@ import './App.css'
 
 function App() {
   const server = () => {
-    fetch('http://localhost:3000/runTest')
+    fetch('http://localhost:2000/runTest')
       .then(response => response.json())
       .then(data => console.log(data));
   };
